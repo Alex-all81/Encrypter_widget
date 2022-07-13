@@ -4,253 +4,233 @@
 <context>
     <name>EncrypterWindow</name>
     <message>
-        <location filename="encrypterwindow.cpp" line="100"/>
+        <location filename="encrypterwindow.cpp" line="83"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="101"/>
+        <location filename="encrypterwindow.cpp" line="84"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="105"/>
+        <location filename="encrypterwindow.cpp" line="87"/>
         <source>&amp;New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="107"/>
+        <location filename="encrypterwindow.cpp" line="89"/>
         <source>Create a new encrypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="114"/>
+        <location filename="encrypterwindow.cpp" line="95"/>
         <source>&amp;Open...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="116"/>
+        <location filename="encrypterwindow.cpp" line="97"/>
         <source>Open an existing file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="122"/>
+        <location filename="encrypterwindow.cpp" line="103"/>
         <source>&amp;Open crypted...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="124"/>
+        <location filename="encrypterwindow.cpp" line="105"/>
         <source>Open an crypted file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="131"/>
+        <location filename="encrypterwindow.cpp" line="111"/>
         <source>&amp;Save Result</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="133"/>
+        <location filename="encrypterwindow.cpp" line="113"/>
         <source>Save the encrypted result to disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="139"/>
+        <location filename="encrypterwindow.cpp" line="119"/>
         <source>Save &amp;Result As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="142"/>
+        <location filename="encrypterwindow.cpp" line="120"/>
         <source>Save the encrypted result under a new name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="145"/>
+        <location filename="encrypterwindow.cpp" line="123"/>
         <source>Save Original &amp;As...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="148"/>
+        <location filename="encrypterwindow.cpp" line="124"/>
         <source>Save the document under a new name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="151"/>
-        <source>&amp;Print...</source>
+        <location filename="encrypterwindow.cpp" line="176"/>
+        <source>Show the Encrypter about box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="153"/>
-        <source>Print the current form letter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="encrypterwindow.cpp" line="160"/>
+        <location filename="encrypterwindow.cpp" line="128"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="162"/>
+        <location filename="encrypterwindow.cpp" line="130"/>
         <source>Quit the application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="164"/>
+        <location filename="encrypterwindow.cpp" line="132"/>
         <source>&amp;Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="165"/>
+        <location filename="encrypterwindow.cpp" line="133"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="168"/>
-        <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="encrypterwindow.cpp" line="170"/>
-        <source>Undo the last editing action</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="encrypterwindow.cpp" line="176"/>
+        <location filename="encrypterwindow.cpp" line="144"/>
         <source>&amp;Encrypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="178"/>
-        <location filename="encrypterwindow.cpp" line="186"/>
+        <location filename="encrypterwindow.cpp" line="145"/>
+        <location filename="encrypterwindow.cpp" line="152"/>
         <source>Encrypt text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="184"/>
+        <location filename="encrypterwindow.cpp" line="151"/>
         <source>&amp;Decrypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="193"/>
+        <location filename="encrypterwindow.cpp" line="159"/>
         <source>&amp;Copy to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="195"/>
+        <location filename="encrypterwindow.cpp" line="160"/>
         <source>Copy encrypted result to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="201"/>
+        <location filename="encrypterwindow.cpp" line="165"/>
         <source>From &amp;History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="203"/>
+        <location filename="encrypterwindow.cpp" line="166"/>
         <source>Load text data from history list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="208"/>
+        <location filename="encrypterwindow.cpp" line="171"/>
         <source>&amp;View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="212"/>
+        <location filename="encrypterwindow.cpp" line="174"/>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="214"/>
+        <location filename="encrypterwindow.cpp" line="175"/>
         <source>&amp;About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="215"/>
-        <source>Show the application&apos;s About box</source>
+        <location filename="encrypterwindow.cpp" line="185"/>
+        <source>About Encrypter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="217"/>
-        <source>About &amp;Qt</source>
+        <location filename="encrypterwindow.cpp" line="186"/>
+        <source>The Encrypt / decrypt russian and english text by some ciphers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="218"/>
-        <source>Show the Qt library&apos;s About box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="encrypterwindow.cpp" line="222"/>
+        <location filename="encrypterwindow.cpp" line="193"/>
         <source>Ready</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="226"/>
+        <location filename="encrypterwindow.cpp" line="200"/>
         <source>preset list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="242"/>
+        <location filename="encrypterwindow.cpp" line="216"/>
         <source>history of encrypt/decrypt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="249"/>
+        <location filename="encrypterwindow.cpp" line="223"/>
         <source>Cipher setings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="255"/>
-        <source>Parameter name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="encrypterwindow.cpp" line="255"/>
+        <location filename="encrypterwindow.cpp" line="229"/>
         <source>Value</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="452"/>
-        <location filename="encrypterwindow.cpp" line="541"/>
+        <location filename="encrypterwindow.cpp" line="229"/>
+        <source>Param</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="encrypterwindow.cpp" line="422"/>
+        <location filename="encrypterwindow.cpp" line="531"/>
         <source>Application</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="453"/>
+        <location filename="encrypterwindow.cpp" line="423"/>
         <source>Cannot read file %1:
 %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="468"/>
+        <location filename="encrypterwindow.cpp" line="438"/>
         <source>File loaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="505"/>
+        <location filename="encrypterwindow.cpp" line="488"/>
         <source>Encrypted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="506"/>
+        <location filename="encrypterwindow.cpp" line="489"/>
         <source>The  document has been encrypted.
 Do you want to save your result data?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="531"/>
+        <location filename="encrypterwindow.cpp" line="518"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="535"/>
+        <location filename="encrypterwindow.cpp" line="524"/>
         <source>Cannot open file %1 for writing:
 %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypterwindow.cpp" line="546"/>
+        <location filename="encrypterwindow.cpp" line="536"/>
         <source>File saved</source>
         <translation type="unfinished"></translation>
     </message>
@@ -258,14 +238,14 @@ Do you want to save your result data?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="encrypter.cpp" line="12"/>
+        <location filename="encrypter.cpp" line="14"/>
         <source>Affine cipher type: ResultChar=(OriginalChar*mult+shift)%N,<byte value="xd"/>
-    N- is Alphabet size. Here it can be simple as Cesar/Atbash, <byte value="xd"/>
-    where mult param is missed(as equal 1)</source>
+   N- is Alphabet size. Here it can be simple as Cesar/Atbash, <byte value="xd"/>
+   where mult param is missed(as equal 1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="encrypter.cpp" line="171"/>
+        <location filename="encrypter.cpp" line="188"/>
         <source>Cipher type as Cesar, but shift is non-const,
     and determined by keyword,</source>
         <translation type="unfinished"></translation>

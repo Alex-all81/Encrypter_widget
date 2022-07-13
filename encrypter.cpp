@@ -2,20 +2,23 @@
 
 namespace Encrypt {
 
-
 CipherCesar::CipherCesar()
 {
     m_type=Cipher::Cesar;
 }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 QString CipherCesar::getDescription()
 {
     static QString description=QString(QObject::tr("Affine cipher type: ResultChar=(OriginalChar*mult+shift)%N,\r\n\
-    N- is Alphabet size. Here it can be simple as Cesar/Atbash, \r\n\
-    where mult param is missed(as equal 1)"));
+   N- is Alphabet size. Here it can be simple as Cesar/Atbash, \r\n\
+   where mult param is missed(as equal 1)"));
     return   description;
 }
-
-//-----
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherCesar::actualize()
 {
     if(m_params.contains("shift"))
@@ -24,10 +27,12 @@ void CipherCesar::actualize()
         m_mult=m_params["mult"].toInt();
     calcMult();
 }
-//------
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherCesar::calcMult()
 {
-    int size=m_diap->size();
+    size_t size=m_diap->size();
     int prev=0;
     if(m_multcalc.size()<size)
         m_multcalc.resize(size);
@@ -64,12 +69,14 @@ void CipherCesar::calcMult()
         prev=(*m_diap)[i].diff;
     }
 }
-//------
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherCesar::operator()(const EncrypterBase::text_type& source, EncrypterBase::text_type& result)
 {
     result.reserve(resultSize(source.size()));
     uint size=toUnicode(source);
-    int dsize=m_diap->size();
+    size_t dsize=m_diap->size();
     for(unicode_t &code:m_ucs4)
     {
 //        for(const auto &diap: *m_diap)
@@ -87,12 +94,14 @@ void CipherCesar::operator()(const EncrypterBase::text_type& source, EncrypterBa
     result=QString::fromUcs4(m_ucs4.data(), size);
     result.squeeze();
 }
-//----
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherCesar::decrypt(EncrypterBase::text_type& original, const EncrypterBase::text_type& crypted)
 {
     original.reserve(resultSize(crypted.size()));
     uint size=toUnicode(crypted);
-    int dsize=m_diap->size();
+    size_t dsize=m_diap->size();
     for(unicode_t &code:m_ucs4)
     {
         for(int i=0;i< dsize;++i)
@@ -109,19 +118,21 @@ void CipherCesar::decrypt(EncrypterBase::text_type& original, const EncrypterBas
     original=QString::fromUcs4(m_ucs4.data(), size);
     original.squeeze();
 }
-//----
-
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 CipherAtbash::CipherAtbash()
 {
     m_type=Cipher::Atbash;
 }
-
-//---
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherAtbash::operator()(const EncrypterBase::text_type& source, EncrypterBase::text_type& result)
 {
     result.reserve(resultSize(source.size()));
     uint size=toUnicode(source);
-    int dsize=m_diap->size();
+    size_t dsize=m_diap->size();
     for(unicode_t &code:m_ucs4)
     {
         for(int i=0;i< dsize;++i)
@@ -138,6 +149,9 @@ void CipherAtbash::operator()(const EncrypterBase::text_type& source, EncrypterB
     result=QString::fromUcs4(m_ucs4.data(), size);
     result.squeeze();
 }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherAtbash::decrypt(EncrypterBase::text_type& original, const EncrypterBase::text_type& crypted)
 {
     original.reserve(resultSize(crypted.size()));
@@ -159,21 +173,25 @@ void CipherAtbash::decrypt(EncrypterBase::text_type& original, const EncrypterBa
     original=QString::fromUcs4(m_ucs4.data(), size);
     original.squeeze();
 }
-
-//----
-
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 CipherKeywordCesar::CipherKeywordCesar()
 {
     m_type=Cipher::KeywordCesar;
 }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 QString CipherKeywordCesar::getDescription()
 {
     static QString description=QString(QObject::tr("Cipher type as Cesar, but shift is non-const,\n\
     and determined by keyword,"));
     return   description;
 }
-
-//-----
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherKeywordCesar::actualize()
 {
    CipherCesar::actualize();
@@ -182,7 +200,9 @@ void CipherKeywordCesar::actualize()
         m_keywordcode=m_keyword.toUcs4();
     }
 }
-//---
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherKeywordCesar::operator()(const EncrypterBase::text_type& source, EncrypterBase::text_type& result)
 {
     uint ksize=m_keywordcode.size();
@@ -209,7 +229,9 @@ void CipherKeywordCesar::operator()(const EncrypterBase::text_type& source, Encr
     result=QString::fromUcs4(m_ucs4.data(), size);
     result.squeeze();
 }
-//----
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
 void CipherKeywordCesar::decrypt(EncrypterBase::text_type& original, const EncrypterBase::text_type& crypted)
 {
     uint ksize=m_keywordcode.size();
@@ -217,8 +239,8 @@ void CipherKeywordCesar::decrypt(EncrypterBase::text_type& original, const Encry
         return CipherKeywordCesar::decrypt(original,crypted);
     original.reserve(resultSize(crypted.size()));
     uint size=toUnicode(crypted);
-    int dsize=m_diap->size();
-    int idx=0;
+    size_t dsize=m_diap->size();
+    uint idx=0;
     for(unicode_t &code:m_ucs4)
     {
         for(int i=0;i< dsize;++i)
@@ -238,4 +260,5 @@ void CipherKeywordCesar::decrypt(EncrypterBase::text_type& original, const Encry
     original=QString::fromUcs4(m_ucs4.data(), size);
     original.squeeze();
 }
+//---
 } // name space Encrypt
