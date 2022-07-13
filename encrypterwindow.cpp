@@ -2,6 +2,7 @@
 #include <QtGlobal>
 #include "encrypterwindow.h"
 #include "collection.h"
+#define SETFORMAT QSettings::IniFormat
 #define setCurrentFile(file) if(textEdit==inputText){inputFile=file;}else{resultFile=file;resultText->document()->setModified(false);setWindowModified(false);}
 using namespace Encrypt;
 EncrypterWindow::EncrypterWindow(QWidget *parent)
@@ -65,18 +66,32 @@ void EncrypterWindow::encrypt()
 
 void EncrypterWindow::decrypt()
 {
-    const QTextDocument *doc = resultText->document();
-    QTextDocument *docres = inputText->document();
-    docres->clear();
+    QString preset = presetList->currentItem()->text();
+    Collection::Presets *set = collection->getPresets();
+    if(preset.isEmpty() || !set || set->find(preset)==set->end())
+        return;
+
+    QTextDocument *doc = inputText->document();
+    const QTextDocument *docres = resultText->document();
+    doc->clear();
+    QString src=(docres->toRawText());
     QString res;
-    res.reserve(doc->toRawText().size());
-    for(auto it:doc->toRawText() )
-    {
-        if(it.isLetter())
-            res+=QChar(it.unicode()-3);
-        else res+=it;
-    }
-   docres->setPlainText(res);
+    set->operator[](preset)->decrypt(res,src);
+    doc->setPlainText(res);
+    saveHistory();
+
+    //    const QTextDocument *doc = resultText->document();
+//    QTextDocument *docres = inputText->document();
+//    docres->clear();
+//    QString res;
+//    res.reserve(doc->toRawText().size());
+//    for(auto it:doc->toRawText() )
+//    {
+//        if(it.isLetter())
+//            res+=QChar(it.unicode()-3);
+//        else res+=it;
+//    }
+//   docres->setPlainText(res);
     //inputText->setDocument(docres);
 }
 
@@ -212,8 +227,14 @@ void EncrypterWindow::createDockWindows()
         dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
         presetList = new QListWidget(dock);
         for(auto &item:*(collection->getPresets()))
-            presetList->addItem(item.first);
-        presetList->setCurrentRow(1);
+           {
+                QListWidgetItem *wid = new QListWidgetItem(item.first);
+                auto cipher=item.second;
+                QString desc=cipher->getDescription();
+                wid->setToolTip(desc);
+                presetList->addItem(wid);
+            }
+        presetList->setCurrentRow(0);
         dock->setWidget(presetList);
         addDockWidget(Qt::LeftDockWidgetArea, dock);
         viewMenu->addAction(dock->toggleViewAction());
@@ -227,7 +248,14 @@ void EncrypterWindow::createDockWindows()
 
         dock = new QDockWidget(tr("Cipher setings"), this);
         settingsTable = new QTableWidget(dock);
-
+        settingsTable->setSelectionMode(QAbstractItemView::NoSelection);
+        settingsTable->setSelectionBehavior(QAbstractItemView::SelectItems);
+        settingsTable->setEditTriggers(QAbstractItemView::SelectedClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::DoubleClicked);
+        settingsTable->setColumnCount(2);
+        const QStringList labels{tr("Parameter name"), tr("Value")};
+        settingsTable->setHorizontalHeaderLabels(labels);
+        settingsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+        settingsTable->horizontalHeader()->resizeSection(1, 180);
         dock->setWidget(settingsTable);
         addDockWidget(Qt::LeftDockWidgetArea, dock);
         viewMenu->addAction(dock->toggleViewAction());
@@ -240,10 +268,12 @@ void EncrypterWindow::createDockWindows()
 
         connect(presetList, &QListWidget::currentTextChanged,
                 this, &EncrypterWindow::showSettings);
-        connect(historyList, &QListWidget::currentTextChanged,
-                this, &EncrypterWindow::fromHistory);
+        //connect(historyList, &QListWidget::currentTextChanged,this, &EncrypterWindow::fromHistory);
+        connect(settingsTable, &QTableWidget::itemChanged,this, &EncrypterWindow::changeSettings);
+        connect(historyList, &QListWidget::itemDoubleClicked,this, &EncrypterWindow::fromHistory);
 
 }
+
 void EncrypterWindow::readSettings()
 //! [34] //! [36]
 {
@@ -290,7 +320,7 @@ void EncrypterWindow::writeSettings()
     settings.setValue("inputFile",inputFile);
     settings.setValue("resultFile",resultFile);
 }
-#define SETFORMAT QSettings::IniFormat
+
 void EncrypterWindow::loadHistory()
 {
     QSettings settings(SETFORMAT, QSettings::UserScope,QCoreApplication::organizationName(), QCoreApplication::applicationName());
@@ -310,10 +340,27 @@ void EncrypterWindow::saveHistory()
     QDateTime dt(QDateTime::currentDateTime());
     QString date=dt.toString(Qt::DateFormat::ISODateWithMs );
     settings.beginGroup("history");
-        settings.beginGroup(date);
+    settings.beginGroup(date);
         settings.setValue("input",inputText->document()->toRawText());
         settings.setValue("result",resultText->document()->toRawText());
+        settings.beginGroup("settings");
+            ParamMap * params=currentParam();
+            QString preset=presetList->currentItem()->text();
+            settings.setValue("preset",preset);
+            Collection::Presets *set;
+            set = collection->getPresets();
+            auto cipher=set->operator[](preset);
+            settings.setValue("type",cipher->type());
+            auto list=params->keys();
+//            for(auto item=params->begin();item!=params->end();++item)
+            settings.beginGroup("params");
+            for(auto item:list)
+            {
+               settings.setValue(item,(*params)[item].toString());
+            }
         settings.endGroup();
+        settings.endGroup();
+    settings.endGroup();
     settings.endGroup();
     historyList->addItem(date);
 }
@@ -321,6 +368,7 @@ void EncrypterWindow::saveHistory()
 void EncrypterWindow::fromHistory()
 {
     QListWidgetItem * item =historyList->currentItem();
+
     QString text=item->text();
     if(text.isEmpty())
             return;
@@ -329,6 +377,28 @@ void EncrypterWindow::fromHistory()
     settings.beginGroup(text);
     inputText->document()->setPlainText( settings.value("input").toByteArray());
     resultText->document()->setPlainText(settings.value("result").toByteArray());
+    settings.beginGroup("settings");
+        ParamMap  params;//=currentParam();
+        QString preset=settings.value("preset").toString();
+        int type=settings.value("type").toInt();
+        auto list=presetList->findItems(preset,Qt::MatchFixedString);
+        settings.beginGroup("params");
+        QStringList keys = settings.childKeys();
+        for(auto &key:keys)
+        {
+            params[key]=settings.value(key).toString();
+        }
+
+        Collection::Presets *set;
+        if(list.isEmpty() && !collection->addPreset(Cipher(type),params,preset))
+            return;
+        set = collection->getPresets();
+        auto cipher=set->operator[](preset);
+        cipher->setParams(params);
+        cipher->actualize();
+        presetList->setCurrentItem(list.first());
+        settings.endGroup();
+    settings.endGroup();
     settings.endGroup();
     settings.endGroup();
 }
@@ -480,7 +550,62 @@ bool EncrypterWindow::saveFile(const QString &fileName, QTextEdit* textEdit)
 void EncrypterWindow::showSettings(const QString &preset)
 {
     Collection::Presets *set = collection->getPresets();
-    ParamMap params=set->operator[](preset)->getParams();
-    settingsTable->clear();
-    //settingsTable->setModel();
+    const ParamMap *params=set->operator[](preset)->getParams();
+//    QStandardItemModel * model = new QStandardItemModel;
+    QList<QString> keys=params->keys();
+    settingsTable->clearContents();
+    settingsTable->setColumnCount(2);
+    int rows=params->size();
+    settingsTable->setRowCount(rows);
+    rows=0;
+    for(auto item:keys)
+       {
+//            model->(rows, new QStandardItem(item));
+        QTableWidgetItem *wid= new QTableWidgetItem (item);
+        wid->setFlags(Qt::NoItemFlags);
+        settingsTable->setItem(rows,0,wid);
+//            model->setItem(model->rowCount()-1,1,new QStandardItem(params[item].toString()));
+//            QString value=QStringLiteral("%l").arg((*params)[item].toInt());
+            QString value=(*params)[item].toString();
+            wid= new QTableWidgetItem (value);
+            //wid->setFlags(Qt::ItemIsEditable|Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemNeverHasChildren);
+            settingsTable->setItem(rows,1,wid);
+            ++rows;
+        }
+//    QStandardItem *item = new QStandardItem();
+//    QList<QStandardItem *> standardItemsList;
+//               // учитываем, что строка разделяется точкой с запятой на колонки
+//               for (QString item :params.get) {
+//                   standardItemsList.append(new QStandardItem(item));
+//               }
+//
+    //settingsTable->setModel(model);
+}
+ParamMap* EncrypterWindow::currentParam()
+{
+    QString preset = presetList->currentItem()->text();
+    Collection::Presets *set = collection->getPresets();
+    auto cipher=set->operator[](preset);
+    ParamMap *map=cipher->getParams();
+    return map;
+}
+void EncrypterWindow::changeSettings(QTableWidgetItem *item)
+{
+      int row,column;
+      column=item->column();
+      if(column!=1)
+          return;
+      row=item->row();
+      QString text=item->text();
+      QString name=settingsTable->item(row,0)->text();
+      QString preset = presetList->currentItem()->text();
+      Collection::Presets *set = collection->getPresets();
+      auto cipher=set->operator[](preset);
+      ParamMap *map=cipher->getParams();
+      if(map->contains(name))
+      {
+          (*map)[name]=QVariant(text);//.toInt();
+          cipher->actualize();
+      }
+
 }

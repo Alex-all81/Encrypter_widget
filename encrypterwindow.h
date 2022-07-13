@@ -9,9 +9,13 @@ class QListWidget;
 class QMenu;
 class QTextEdit;
 class QTableWidget;
+class QTableWidgetItem;
+class QTableView;
 class QHBoxLayout;
+
 QT_END_NAMESPACE
 namespace Encrypt{
+//class ParamMap;
 class Collection;
 }
 
@@ -43,8 +47,9 @@ private slots:
     void settings(){};
     void insertCustomer(const QString &customer){};
     void addParagraph(const QString &paragraph){};
-    void readLog(){};
+    void clearHistory();
     void showSettings(const QString &preset);
+    void changeSettings(QTableWidgetItem *item);
 
 private:
     void createActions();
@@ -59,6 +64,8 @@ private:
     void loadHistory();
     void saveHistory();
     void fromHistory();
+   // Encrypt::ParamMap* currentParam();
+    QMap<QString,QVariant>*currentParam();
 
     QTextEdit *inputText;
     QTextEdit *resultText;

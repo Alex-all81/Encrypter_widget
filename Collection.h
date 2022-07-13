@@ -8,10 +8,7 @@
 
 namespace Encrypt {
 
-enum class Cipher
-{
-   Cesar,Affine,Atbash,CesarAbs
-};
+
 //class QVariant;
 using CesarCipher = CipherCesar;
 using AffineCipher = CipherCesar;
@@ -58,7 +55,7 @@ public:
 protected:
     Presets m_presets;
     Diapazones m_diapazones;
-    Diapazones m_diapall={{0,std::numeric_limits<unicode_t>::max()}};
+    Diapazones m_diapall={{1,std::numeric_limits<unicode_t>::max()-1}};
     Collection()=default;
     ~Collection()=default;
 public:
