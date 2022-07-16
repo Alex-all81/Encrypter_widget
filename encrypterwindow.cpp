@@ -334,7 +334,13 @@ void EncrypterWindow::saveHistory()
 void EncrypterWindow::fromHistory()
   {
    QListWidgetItem * item =historyList->currentItem();
-
+    if(!item)
+       {
+        QMessageBox::warning(this, tr("Select history item"),
+                                     tr("It necessary to select an history item in history list."),
+                                     QMessageBox::Ok );
+        return;
+        }
    QString text=item->text();
    if(text.isEmpty())
       return;
