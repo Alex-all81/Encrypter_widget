@@ -602,16 +602,35 @@ void EncrypterWindow::changeSettings(QTableWidgetItem *item)
        }
        return true;
    };
+   auto CheckDigit=[=](QString str)
+   {
+       for(auto item:str)
+       {
+           if(item.unicode()>'9' || item.unicode()<'0')
+               return false;
+       }
+       return true;
+   };
    if(map->contains(name))
      {
       QString pvalue=(*map)[name].toString();
-      bool newIsLetter = CheckLetter(text);
+      bool good=true;
       bool isLetter = CheckLetter(pvalue);
-       if(newIsLetter!=isLetter)
+      QString add("");
+      if(isLetter && !CheckLetter(text))
+      {
+          good=false;
+          add=" letter!";
+      }
+      if(!isLetter && CheckDigit(pvalue) && ! CheckDigit(text))
+      {
+          good=false;
+          add=" number!";
+      }
+       if(!good)
        {
            QString msg("Parameters should been is");
-           msg+=(isLetter?" ":" not ");
-           msg+="letter!";
+           msg+=add;
            statusBar()->showMessage(msg, 5000);
            item->setText(pvalue);
            return;
