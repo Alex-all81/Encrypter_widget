@@ -158,6 +158,7 @@ void EncrypterWindow::createActions()
    const QIcon copyIcon = QIcon();//::fromTheme("edit-copy-to");//, QIcon(":/images/copyto.png"));
    QAction *copyAct = new QAction(copyIcon, tr("&Copy to clipboard"), this);
    copyAct->setStatusTip(tr("Copy encrypted result to clipboard"));
+   connect(copyAct, &QAction::triggered, this, &EncrypterWindow::copy);
    editMenu->addAction(copyAct);
    editToolBar->addAction(copyAct);
 
@@ -640,4 +641,12 @@ void EncrypterWindow::changeSettings(QTableWidgetItem *item)
      }
 
   }
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+void EncrypterWindow::copy()
+{
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    clipboard->setText(resultText->document()->toRawText());
+}
 //+------------------------------------------------------------------+

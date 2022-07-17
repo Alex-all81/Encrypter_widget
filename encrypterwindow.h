@@ -43,6 +43,7 @@ private slots:
    bool              save();
    bool              saveAs();
    bool              saveResAs();
+   void              copy();
    void              showSettings(const QString &preset);
    void              changeSettings(QTableWidgetItem *item);
    void              about();
