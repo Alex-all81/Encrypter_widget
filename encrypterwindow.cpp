@@ -593,9 +593,30 @@ void EncrypterWindow::changeSettings(QTableWidgetItem *item)
    Collection::Presets *set = collection->getPresets();
    auto cipher=set->operator[](preset);
    ParamMap *map=cipher->getParams();
+   auto CheckLetter=[=](QString str)
+   {
+       for(auto item:str)
+       {
+           if(!item.isLetter())
+               return false;
+       }
+       return true;
+   };
    if(map->contains(name))
      {
-      (*map)[name]=QVariant(text);//.toInt();
+      QString pvalue=(*map)[name].toString();
+      bool newIsLetter = CheckLetter(text);
+      bool isLetter = CheckLetter(pvalue);
+       if(newIsLetter!=isLetter)
+       {
+           QString msg("Parameters should been is");
+           msg+=(isLetter?" ":" not ");
+           msg+="letter!";
+           statusBar()->showMessage(msg, 5000);
+           item->setText(pvalue);
+           return;
+       }
+       (*map)[name]=QVariant(text);//.toInt();
       cipher->actualize();
      }
 
